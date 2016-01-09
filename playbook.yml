@@ -1,7 +1,8 @@
 ---
-- name: Install ruby
+- name: Install ruby and nginx
   hosts: all
   gather_facts: no
   roles:
     - common
     - ruby
+    - nginx

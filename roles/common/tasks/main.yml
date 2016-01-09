@@ -2,3 +2,6 @@
 - name: Upgrade all packages
   yum: name=* state=latest
   sudo: yes
+- name: Add the EPEL software repository
+  yum: name=epel-release state=present
+  sudo: yes
