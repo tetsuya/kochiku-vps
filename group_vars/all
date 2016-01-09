@@ -1,0 +1,3 @@
+# These are the rbenv settings
+ruby_version: 2.3.0
+rbenv_root: /home/{{ ansible_ssh_user }}/.rbenv

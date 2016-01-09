@@ -1,0 +1,78 @@
+---
+- name: Install build depends
+  yum: name={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - autoconf
+    - automake
+    - bison
+    - bzip2
+    - curl
+    - gcc-c++
+    - git-core
+    - libffi-devel
+    - libtool
+    - libxml2-devel
+    - libxslt-devel
+    - libyaml-devel
+    - make
+    - mysql-devel
+    - openssl-devel
+    - patch
+    - readline
+    - readline-devel
+    - zlib
+    - zlib-devel
+
+- name: Check rbenv installation
+  command: test -x /usr/local/bin/rbenv-install
+  register: rbenv_present
+  ignore_errors: yes
+
+- name: Clone rbenv repo
+  git: repo=https://github.com/sstephenson/rbenv.git dest={{ rbenv_root }}
+  when: rbenv_present|failed
+
+- shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+  when: rbenv_present|failed
+
+- shell: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+  when: rbenv_present|failed
+
+- name: Check ruby-build installation
+  command: test -x /usr/local/bin/ruby-build
+  register: rbuild_present
+  ignore_errors: yes
+
+- name: Clone ruby-build repo
+  git: repo=https://github.com/sstephenson/ruby-build.git dest={{ rbenv_root }}/plugins/ruby-build
+  when: rbuild_present|failed
+
+- name: Install ruby-build
+  command: ./install.sh chdir={{ rbenv_root }}/plugins/ruby-build
+  sudo: yes
+  when: rbuild_present|failed
+
+- name: Check ruby installation
+  shell: bash -lc "rbenv versions | grep {{ ruby_version }}"
+  register: ruby_installed
+  ignore_errors: yes
+
+- name: Install {{ ruby_version }}
+  shell: bash -lc "rbenv install {{ ruby_version }}"
+  when: ruby_installed|failed
+
+- name: Set ruby {{ ruby_version }} as system
+  shell: bash -lc "rbenv global {{ ruby_version }}"
+  when: ruby_installed|failed
+
+- name: Save settings
+  shell: bash -lc "rbenv rehash"
+  when: ruby_installed|failed
+
+- name: Install bundler
+  gem: name=bundler executable={{ rbenv_root }}/shims/gem user_install=no
+
+- name: Create and set /var/www/ directory writable
+  sudo: yes
+  file: path=/var/www state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }}
