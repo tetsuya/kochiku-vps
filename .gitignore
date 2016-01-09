@@ -1,0 +1,4 @@
+.vagrant/
+
+# Environment normalisation
+.DS_Store
