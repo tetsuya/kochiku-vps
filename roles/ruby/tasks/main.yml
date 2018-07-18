@@ -31,13 +31,13 @@
 
 - name: Clone rbenv repo
   git: repo=https://github.com/sstephenson/rbenv.git dest={{ rbenv_root }}
-  when: rbenv_present|failed
+  when: rbenv_present is failed
 
 - shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-  when: rbenv_present|failed
+  when: rbenv_present is failed
 
 - shell: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-  when: rbenv_present|failed
+  when: rbenv_present is failed
 
 - name: Check ruby-build installation
   command: test -x /usr/local/bin/ruby-build
@@ -46,12 +46,12 @@
 
 - name: Clone ruby-build repo
   git: repo=https://github.com/sstephenson/ruby-build.git dest={{ rbenv_root }}/plugins/ruby-build
-  when: rbuild_present|failed
+  when: rbuild_present is failed
 
 - name: Install ruby-build
   command: ./install.sh chdir={{ rbenv_root }}/plugins/ruby-build
   become: yes
-  when: rbuild_present|failed
+  when: rbuild_present is failed
 
 - name: Check ruby installation
   shell: bash -lc "rbenv versions | grep {{ ruby_version }}"
@@ -60,15 +60,15 @@
 
 - name: Install {{ ruby_version }}
   shell: bash -lc "rbenv install {{ ruby_version }}"
-  when: ruby_installed|failed
+  when: ruby_installed is failed
 
 - name: Set ruby {{ ruby_version }} as system
   shell: bash -lc "rbenv global {{ ruby_version }}"
-  when: ruby_installed|failed
+  when: ruby_installed is failed
 
 - name: Save settings
   shell: bash -lc "rbenv rehash"
-  when: ruby_installed|failed
+  when: ruby_installed is failed
 
 - name: Install bundler
   gem: name=bundler executable={{ rbenv_root }}/shims/gem user_install=no
