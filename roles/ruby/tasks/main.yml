@@ -1,7 +1,7 @@
 ---
 - name: Install build depends
   yum: name={{ item }} state=latest
-  sudo: yes
+  become: yes
   with_items:
     - autoconf
     - automake
@@ -50,7 +50,7 @@
 
 - name: Install ruby-build
   command: ./install.sh chdir={{ rbenv_root }}/plugins/ruby-build
-  sudo: yes
+  become: yes
   when: rbuild_present|failed
 
 - name: Check ruby installation
@@ -74,5 +74,5 @@
   gem: name=bundler executable={{ rbenv_root }}/shims/gem user_install=no
 
 - name: Create and set /var/www/ directory writable
-  sudo: yes
+  become: yes
   file: path=/var/www state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }}

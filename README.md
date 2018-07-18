@@ -1,5 +1,5 @@
 ## Prerequisite
-+ ansible 1.9 or higher
++ ansible 2.0 or higher
 
 There are several ways to install Ansible. If you are running on a Mac OS X, it is easiest to install install through [Homebrew/homebrew](https://github.com/Homebrew/homebrew).
 
