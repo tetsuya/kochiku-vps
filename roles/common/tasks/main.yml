@@ -1,7 +1,11 @@
 ---
 - name: Upgrade all packages
-  yum: name=* state=latest
   become: yes
+  yum:
+    name: '*'
+    state: latest
 - name: Add the EPEL software repository
-  yum: name=epel-release state=present
   become: yes
+  yum:
+    name: epel-release
+    state: present

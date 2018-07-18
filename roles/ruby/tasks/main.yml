@@ -1,7 +1,9 @@
 ---
 - name: Install build depends
-  yum: name={{ item }} state=latest
   become: yes
+  yum:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - autoconf
     - automake
@@ -30,7 +32,9 @@
   ignore_errors: yes
 
 - name: Clone rbenv repo
-  git: repo=https://github.com/sstephenson/rbenv.git dest={{ rbenv_root }}
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: "{{ rbenv_root }}"
   when: rbenv_present is failed
 
 - shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
@@ -45,12 +49,14 @@
   ignore_errors: yes
 
 - name: Clone ruby-build repo
-  git: repo=https://github.com/sstephenson/ruby-build.git dest={{ rbenv_root }}/plugins/ruby-build
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: "{{ rbenv_root }}/plugins/ruby-build"
   when: rbuild_present is failed
 
 - name: Install ruby-build
-  command: ./install.sh chdir={{ rbenv_root }}/plugins/ruby-build
   become: yes
+  command: ./install.sh chdir={{ rbenv_root }}/plugins/ruby-build
   when: rbuild_present is failed
 
 - name: Check ruby installation
@@ -71,8 +77,15 @@
   when: ruby_installed is failed
 
 - name: Install bundler
-  gem: name=bundler executable={{ rbenv_root }}/shims/gem user_install=no
+  gem:
+    name: bundler
+    user_install: no
+    executable: "{{ rbenv_root }}/shims/gem"
 
 - name: Create and set /var/www/ directory writable
   become: yes
-  file: path=/var/www state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }}
+  file:
+    path: /var/www
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
