@@ -2,3 +2,4 @@
 
 # Environment normalisation
 .DS_Store
+playbook.retry
