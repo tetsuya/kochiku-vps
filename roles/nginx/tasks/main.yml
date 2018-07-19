@@ -1,4 +1,10 @@
 ---
+- name: Add nginx yum repository
+  become: yes
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+
 - name: Install nginx
   become: yes
   yum:

@@ -4,8 +4,3 @@
   yum:
     name: '*'
     state: latest
-- name: Add the EPEL software repository
-  become: yes
-  yum:
-    name: epel-release
-    state: present
