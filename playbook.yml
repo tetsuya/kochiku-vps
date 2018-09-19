@@ -1,6 +1,9 @@
 ---
 - name: Install ruby and nginx
   hosts: all
+  vars:
+    ruby_version: 2.5.1
+    rbenv_root: "/home/{{ ansible_ssh_user }}/.rbenv"
   gather_facts: no
   roles:
     - common

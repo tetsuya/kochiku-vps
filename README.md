@@ -23,5 +23,5 @@ $ ansible -i development 192.168.33.20 -m ping
 
 ## Provision server with ansible
 ```
-$ ansible-playbook -i development playbook.yml
+$ ansible-playbook -i development playbook.yml --extra-vars "app_name=<your application name>"
 ```

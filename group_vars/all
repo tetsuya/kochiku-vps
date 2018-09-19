@@ -1,4 +1,0 @@
-# These are the rbenv settings
-ruby_version: 2.5.1
-rbenv_root: /home/{{ ansible_ssh_user }}/.rbenv
-app_dir: wotakatsu
