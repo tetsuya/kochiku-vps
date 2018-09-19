@@ -4,3 +4,7 @@
   yum:
     name: '*'
     state: latest
+- name: Set timezone to Asia/Tokyo
+  become: yes
+  timezone:
+    name: Asia/Tokyo
