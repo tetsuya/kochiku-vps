@@ -2,29 +2,28 @@
 - name: Install build depends
   become: yes
   yum:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - autoconf
-    - automake
-    - bison
-    - bzip2
-    - curl
-    - gcc-c++
-    - git-core
-    - libffi-devel
-    - libtool
-    - libxml2-devel
-    - libxslt-devel
-    - libyaml-devel
-    - make
-    - mysql-devel
-    - openssl-devel
-    - patch
-    - readline
-    - readline-devel
-    - zlib
-    - zlib-devel
+    name: [
+        autoconf,
+        automake,
+        bison,
+        bzip2,
+        curl,
+        gcc-c++,
+        git-core,
+        libffi-devel,
+        libtool,
+        libxml2-devel,
+        libxslt-devel,
+        libyaml-devel,
+        make,
+        mysql-devel,
+        openssl-devel,
+        patch,
+        readline,
+        readline-devel,
+        zlib,
+        zlib-devel
+    ]
 
 - name: Check rbenv installation
   command: test -x /usr/local/bin/rbenv-install
