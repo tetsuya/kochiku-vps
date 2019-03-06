@@ -8,3 +8,9 @@
   become: yes
   timezone:
     name: Asia/Tokyo
+- name: Restart crond to apply new timezone
+  become: yes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: crond
